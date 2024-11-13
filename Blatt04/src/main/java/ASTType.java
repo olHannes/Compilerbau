@@ -1,0 +1,19 @@
+public enum ASTType {
+  PROGRAM,
+  STMT,
+  VARDECL,
+  ASSIGN,
+  FNDECL,
+  PARAMS,
+  RETURN,
+  FNCALL,
+  ARGS,
+  BLOCK,
+  WHILE,
+  COND,
+  EXPR,
+  TYPE,
+  ID,
+  NUMBER,
+  STRING
+}
