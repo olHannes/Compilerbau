@@ -3,42 +3,36 @@ import java.util.List;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
-
-//https://www.hsbi.de/elearning/data/FH-Bielefeld/lm_data/lm_1360443/homework/sheet04.html
 public class Main {
-
-
   public static void printTree(ASTNode node, String indent, boolean isLast) {
-
+    // Ausgabe des aktuellen Knotens mit Einrückung und Verzweigungssymbol
     System.out.print(indent);
     if (isLast) {
-      System.out.print("L__ ");
+      System.out.print("L__ "); // Letzter Knoten auf der aktuellen Ebene
       indent += "    ";
     } else {
-      System.out.print("|-- ");
+      System.out.print("|-- "); // Weitere Knoten auf der aktuellen Ebene
       indent += "|   ";
     }
     System.out.println(node);
-
+    // Rekursives Durchlaufen der Kinder des aktuellen Knotens
     List<ASTNode> children = node.getChildren();
     for (int i = 0; i < children.size(); i++) {
       printTree(children.get(i), indent, i == children.size() - 1);
     }
   }
 
-  
-  
-  
-  
-  
-  
   public static void main(String... args) throws IOException {
     String input =
         "int f95(int n) {\n"
+            + "    string n = \"hello world\";\n"
             + "    if (n == 0) {\n"
             + "        return 1;\n"
+            + "        int p = 20;\n"
             + "    } else {\n"
+            + "        p = 100;\n"
             + "        if (n == 1) {\n"
             + "            return 1;\n"
             + "        } else {\n"
@@ -48,9 +42,8 @@ public class Main {
             + "}\n"
             + "\n"
             + "int n = 10;\n"
-            + "f95(n);";
-
-
+            + "f95(n);\n"
+            + "n();";
     Blatt04Lexer lexer = new Blatt04Lexer(CharStreams.fromString(input));
     CommonTokenStream tokens = new CommonTokenStream(lexer);
     Blatt04Parser parser = new Blatt04Parser(tokens);
@@ -59,5 +52,9 @@ public class Main {
     ASTVisitor visitor = new ASTVisitor();
     ASTNode node = visitor.visit(tree);
     printTree(node, "", true);
+
+    STListener listener = new STListener();
+    ParseTreeWalker walker = new ParseTreeWalker();
+    walker.walk(listener, tree);
   }
 }

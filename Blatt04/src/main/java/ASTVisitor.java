@@ -38,7 +38,7 @@ public class ASTVisitor extends Blatt04BaseVisitor<ASTNode> {
     ASTNode fndeclNode = new ASTNode(ASTType.FNDECL);
     fndeclNode.addChild(visit(ctx.type()));
     fndeclNode.addChild(new ASTNode(ASTType.ID, ctx.ID().getText()));
-    if (!ctx.params().isEmpty()) {
+    if (ctx.params() != null) {
       fndeclNode.addChild(visit(ctx.params()));
     }
     fndeclNode.addChild(visit(ctx.block()));
@@ -66,7 +66,7 @@ public class ASTVisitor extends Blatt04BaseVisitor<ASTNode> {
   public ASTNode visitFncall(Blatt04Parser.FncallContext ctx) {
     ASTNode fncallNode = new ASTNode(ASTType.FNCALL);
     fncallNode.addChild(new ASTNode(ASTType.ID, ctx.ID().getText()));
-    if (!ctx.args().isEmpty()) {
+    if (ctx.args() != null) {
       fncallNode.addChild(visit(ctx.args()));
     }
     return fncallNode;
